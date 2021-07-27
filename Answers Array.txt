@@ -1,0 +1,10 @@
+	qa[0][1] = "JDB";
+        qa[1][1] = "int";
+        qa[2][1] = "java.util package";
+        qa[3][1] = "Marker Interface";
+        qa[4][1] = "Heap memory";
+        qa[5][1] = "Remote interface";
+        qa[6][1] = "import";
+        qa[7][1] = "Java Archive";
+        qa[8][1] = "java.lang.StringBuilder";
+        qa[9][1] = "Bytecode is executed by JVM";

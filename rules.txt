@@ -1,0 +1,11 @@
+"<html>"
+	"Rules"+"<br><br>"+
+	"1. All the questions in the quiz are compulsory to attend."+"<br><br>"+
+	"2. Each question consists of 1 mark."+"<br><br>"+
+	"3. Do not try to cheat."+"<br><br>"+
+	"4. Please read all the questions carefully"+"<br><br>"+
+	"5. Each question will have a time limit of 10 seconds"+"<br><br>"+
+	"6. Do not peak on your neighbours answers"+"<br><br>"+
+	"7. ALL THE BEST"+"<br><br>"+
+"<html>"
+
