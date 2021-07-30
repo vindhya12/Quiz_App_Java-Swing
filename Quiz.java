@@ -6,18 +6,24 @@ class Quiz extends JFrame implements ActionListener
 {
     public static void main(String args[])
     {
-        new Quiz();
+        new Quiz("").setVisible(true);;
     }
 
     JButton next,submit;
     JLabel qno,question;
     JRadioButton opt1,opt2,opt3,opt4;
-    ButtonGroup options;
+    ButtonGroup options;    
     String q[][]=new String[10][5];
-    public static int count=0;
-    public static int timer=10;
-    Quiz()
+    String pans[][]=new String[10][1];
+    String answers[][]=new String[10][2];
+    public  int count=0;
+    public static int timer=20;
+    public static int ans_given=0;
+    public static int score=0;
+    String username;
+    Quiz(String username)
     {
+        this.username=username;
         setBounds(250,20,1440,1000);
         getContentPane().setBackground(Color.ORANGE);
         setLayout(null);
@@ -38,7 +44,7 @@ class Quiz extends JFrame implements ActionListener
         add(qno);
 
         question=new JLabel("");
-        question.setBounds(120,480,800,40);
+        question.setBounds(120,480,1020,40);
         question.setFont(new Font("Tahoma",Font.PLAIN,24));
         add(question);
 
@@ -102,29 +108,41 @@ class Quiz extends JFrame implements ActionListener
         q[9][3] = "Use of exception handling";
         q[9][4] = "Dynamic binding between objects";
 
+        //Correct Answers
+        answers[0][1] = "JDB";
+        answers[1][1] = "int";
+        answers[2][1] = "java.util package";
+        answers[3][1] = "Marker Interface";
+        answers[4][1] = "Heap memory";
+        answers[5][1] = "Remote interface";
+        answers[6][1] = "import";
+        answers[7][1] = "Java Archive";
+        answers[8][1] = "java.lang.StringBuilder";
+        answers[9][1] = "Bytecode is executed by JVM";
+
         opt1=new JRadioButton("");
-        opt1.setBounds(120,580,300,40);
+        opt1.setBounds(120,580,350,40);
         opt1.setBackground(Color.ORANGE);
         //rb1.setForeground(Color.BLACK);
         opt1.setFont(new Font("Tahoma",Font.PLAIN,20));
         add(opt1);
 
         opt2=new JRadioButton("");
-        opt2.setBounds(120,620,300,40);
+        opt2.setBounds(120,620,510,40);
         opt2.setBackground(Color.ORANGE);
         //rb1.setForeground(Color.BLACK);
         opt2.setFont(new Font("Tahoma",Font.PLAIN,20));
         add(opt2);
 
         opt3=new JRadioButton("");
-        opt3.setBounds(120,660,300,40);
+        opt3.setBounds(120,660,350,40);
         opt3.setBackground(Color.ORANGE);
         //rb1.setForeground(Color.BLACK);
         opt3.setFont(new Font("Tahoma",Font.PLAIN,20));
         add(opt3);
 
         opt4=new JRadioButton("");
-        opt4.setBounds(120,700,300,40);
+        opt4.setBounds(120,700,350,40);
         opt4.setBackground(Color.ORANGE);
         //rb1.setForeground(Color.BLACK);
         opt4.setFont(new Font("Tahoma",Font.PLAIN,20));
@@ -158,7 +176,7 @@ class Quiz extends JFrame implements ActionListener
 
         start(0);
 
-        setVisible(true);
+        
     
     }
 
@@ -166,31 +184,144 @@ class Quiz extends JFrame implements ActionListener
     {
         if(ae.getSource()==next)
         {
-            //calling paint function
+            //calling paint method
             repaint();
+            ans_given=1;
+            if(options.getSelection()==null)
+            {
+                pans[count][0]="";
+            }
+            else
+            {
+               pans[count][0]=options.getSelection().getActionCommand(); 
+            }
+            if(count==8)
+            {
+                next.setEnabled(false);
+                submit.setEnabled(true);
+            }
+            count++;
+            start(count);
 
         }
         else if(ae.getSource()==submit)
         {
+            ans_given=1;
+            if(options.getSelection()==null)
+                {
+                    pans[count][0]="";
+                }
+            else
+                {
+                pans[count][0]=options.getSelection().getActionCommand(); 
+                }
 
+            for(int i=0;i<pans.length;i++)
+                {
+                    if(pans[i][0].equals(answers[i][1]))
+                    {
+                        score+=10;
+                    }
+                    else
+                    {
+                        score+=0;
+                    }
+                }
+            this.setVisible(false);
+            new Score(username,score).setVisible(true);
         }
-
     }
 
     public void paint(Graphics g)
     {
         super.paint(g);
-        System.out.println("Vindu");
+        String time="Time left - "+timer;
+        g.setColor(Color.RED);
+        g.setFont(new Font("Tahoma",Font.BOLD,22));
+        
+
+        if(timer>0)
+        {
+            g.drawString(time,1168,550);
+        }
+        else
+        {
+            g.drawString("Time Up!!",1168,550);
+        }
+        timer--;
+        try{
+            Thread.sleep(1000);
+            repaint();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if(ans_given==1)
+            {
+                ans_given=0;
+                timer=20;
+            }
+        else if(timer<0)
+        {
+            timer=20;
+            if(count==8)
+            {
+                next.setEnabled(false);
+                submit.setEnabled(true);
+            }
+            else if(count==9)
+            {
+                if(options.getSelection()==null)
+                {
+                    pans[count][0]="";
+                }
+                else
+                {
+                pans[count][0]=options.getSelection().getActionCommand(); 
+                }
+
+                for(int i=0;i<pans.length;i++)
+                {
+                    if(pans[i][0].equals(answers[i][1]))
+                    {
+                        score+=10;
+                    }
+                    else
+                    {
+                        score+=0;
+                    }
+                }
+                this.setVisible(false);
+                new Score(username,score).setVisible(true);
+            }
+            else
+            {
+                if(options.getSelection()==null)
+                {
+                    pans[count][0]="";
+                }
+                else
+                {
+                pans[count][0]=options.getSelection().getActionCommand(); 
+                }
+                count++;
+                start(count);
+
+            }
+        }
     }
 
     public void start(int count)
     {
         qno.setText(""+(count+1)+".");
-        question.setText(" "+q[count][0]);
-        opt1.setLabel(""+q[count][1]);
-        opt2.setLabel(""+q[count][2]);
-        opt3.setLabel(""+q[count][3]);
-        opt4.setLabel(""+q[count][4]);
+        question.setText(q[count][0]);
+        opt1.setLabel(q[count][1]);
+        opt1.setActionCommand(q[count][1]);
+        opt2.setLabel(q[count][2]);
+        opt2.setActionCommand(q[count][2]);
+        opt3.setLabel(q[count][3]);
+        opt3.setActionCommand(q[count][3]);
+        opt4.setLabel(q[count][4]);
+        opt4.setActionCommand(q[count][4]);
         options.clearSelection();
 
 

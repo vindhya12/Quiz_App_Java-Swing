@@ -11,11 +11,11 @@ public class Rules extends JFrame implements ActionListener
         new Rules("");       
 
     }
-    
+    String username;
     JButton back,start;
     public Rules(String username)
     {
-        
+        this.username=username;
         setBounds(300,100,800,650);
         getContentPane().setBackground(Color.ORANGE);
 
@@ -36,7 +36,7 @@ public class Rules extends JFrame implements ActionListener
                 "2. Each question consists of 1 mark."+"<br><br>"+
                 "3. Do not try to cheat."+"<br><br>"+
                 "4. Please read all the questions carefully"+"<br><br>"+
-                "5. Each question will have a time limit of 10 seconds"+"<br><br>"+
+                "5. Each question will have a time limit of 20 seconds"+"<br><br>"+
                 "6. Do not peak on your neighbours answers"+"<br><br>"+
                 "   ALL THE BEST"+"<br><br>"+
             "<html>"
@@ -70,7 +70,8 @@ public class Rules extends JFrame implements ActionListener
         }
         else if(ae.getSource()==start)
         {
-            new Quiz();
+            this.setVisible(false);
+            new Quiz(username).setVisible(true);
 
         }
     }
